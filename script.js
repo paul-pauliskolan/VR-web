@@ -1,15 +1,38 @@
-// Register a custom component named "x-button-listener"
-AFRAME.registerComponent("x-button-listener", {
-  // Initialize the component.
-  init: function () {
-    // Store the entity (the element the component is attached to) as a variable.
-    var el = this.el;
-    // Add an event listener for the "xbuttondown" event (which is emitted when the X button is pressed on the Oculus Touch controllers).
-    el.addEventListener("xbuttondown", function (evt) {
-      // When the event is emitted, toggle the "visible" attribute of the entity. This will make the entity visible if it was previously hidden, or invisible if it was previously visible.
-      el.setAttribute("visible", !el.getAttribute("visible"));
-      console.log("x button down");
-      console.log("visible", el.getAttribute("visible"));
-    });
-  },
+const canvas = document.getElementById("renderCanvas");
+const engine = new BABYLON.Engine(canvas, true);
+
+const createScene = function () {
+  const scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color3.Black();
+
+  const alpha = Math.PI / 4;
+  const beta = Math.PI / 3;
+  const radius = 8;
+  const target = new BABYLON.Vector3(0, 0, 0);
+
+  const camera = new BABYLON.ArcRotateCamera(
+    "Camera",
+    alpha,
+    beta,
+    radius,
+    target,
+    scene
+  );
+  camera.attachControl(canvas, true);
+
+  const light = new BABYLON.HemisphericLight(
+    "light",
+    new BABYLON.Vector3(1, 1, 0)
+  );
+
+  const box = BABYLON.MeshBuilder.CreateBox("box", {});
+  box.position.x = 0.5;
+  box.position.y = 1;
+
+  return scene;
+};
+
+const sceneToRender = createScene();
+engine.runRenderLoop(function () {
+  sceneToRender.render();
 });

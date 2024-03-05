@@ -2,10 +2,7 @@ const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 
 const createScene = function () {
-  /*   const scene = new BABYLON.Scene(engine); */
-
   const scene = new BABYLON.Scene(engine);
-  const xrHelper = scene.createDefaultXRExperienceAsync();
 
   scene.clearColor = new BABYLON.Color3.Black();
 
